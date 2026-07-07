@@ -94,10 +94,10 @@
     <div id="email-gate-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#070e1b]/95 backdrop-blur-md px-4 no-print">
         <div class="glass-panel p-8 rounded-3xl max-w-lg w-full border border-white/10 shadow-2xl space-y-6 text-center">
             
-            <!-- Logo & Brand avec Intégration du Nouveau Logo SVG -->
+            <!-- Logo & Brand avec Intégration du Logo SVG de la marque -->
             <div class="flex flex-col items-center space-y-3">
                 <div class="bg-gradient-to-tr from-swim-900/50 to-swim-800/50 p-4 rounded-3xl text-swim-400 shadow-xl shadow-swim-500/5 border border-white/5 flex items-center justify-center">
-                    <!-- LOGO ESWIM DESIGN -->
+                    <!-- LOGO ESWIM DESIGN VECTORIEL EXCLUSIF -->
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 fill-current">
                         <!-- Partie haute du E -->
                         <path d="M 45,18 H 78 C 84,18 89,23 89,29 C 89,35 84,40 78,40 H 48 C 44,40 40,44 40,48 V 50 H 30 V 45 C 30,30 37,18 45,18 Z" />
@@ -709,18 +709,34 @@
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Configuration de l'environnement Firebase
+        // =========================================================================
+        // 🔑 CONFIGURATION FIREBASE PERSONNELLE DE PRODUCTION
+        // =========================================================================
+        const MY_PERSONAL_FIREBASE_CONFIG = {
+            apiKey: "AIzaSyBe3vx9d85dbHa0u2X2O4YPLbZBl6Klwk4",
+            authDomain: "simulateur-7023e.firebaseapp.com",
+            projectId: "simulateur-7023e",
+            storageBucket: "simulateur-7023e.firebasestorage.app",
+            messagingSenderId: "803341394488",
+            appId: "1:803341394488:web:5fea1200e797565d8dbccd"
+        };
+        // =========================================================================
+
         let firebaseConfig = null;
         let isLocalDemoMode = false;
 
-        try {
-            // Évite le plantage direct de référence de variable non définie sur VS Code local
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+        // Choix intelligent de la configuration Firebase :
+        if (MY_PERSONAL_FIREBASE_CONFIG.apiKey !== "VOTRE_API_KEY") {
+            firebaseConfig = MY_PERSONAL_FIREBASE_CONFIG;
+        } 
+        else if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
                 firebaseConfig = JSON.parse(__firebase_config);
-            } else {
+            } catch (e) {
                 isLocalDemoMode = true;
             }
-        } catch (e) {
+        } 
+        else {
             isLocalDemoMode = true;
         }
 
@@ -739,7 +755,7 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
             } catch (err) {
-                console.warn("Échec de l'initialisation de Firebase. Activation du mode démo hors-ligne.", err);
+                console.warn("Échec d'initialisation de Firebase. Activation du mode démo.", err);
                 isLocalDemoMode = true;
             }
         } else {
@@ -774,7 +790,7 @@
                     await signInAnonymously(auth);
                 }
             } catch (error) {
-                console.warn("Erreur de connexion Firebase (mode démo activé) : ", error);
+                console.warn("Erreur d'authentification (bascule en mode local) : ", error);
                 isLocalDemoMode = true;
                 isFirebaseLoaded = true;
                 checkGateUnlockState();
@@ -825,12 +841,12 @@
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Enregistrement en cours...</span>`;
 
-            // Si on est en local sur VS Code (Mode Démo Local)
+            // Si on est en local ou sans clés réelles configurées
             if (isLocalDemoMode) {
                 setTimeout(() => {
                     localStorage.setItem('eswim_gated_unlocked', 'true');
                     
-                    // Stocke l'e-mail localement pour que l'admin de VS Code reste fonctionnel
+                    // Stocke l'e-mail localement pour que l'admin de test reste fonctionnel
                     let localLeads = [];
                     try {
                         localLeads = JSON.parse(localStorage.getItem('eswim_local_leads') || '[]');
@@ -847,12 +863,12 @@
                     calculatePaces();
                     btnSubmit.disabled = false;
                     btnSubmit.innerHTML = `<span>Accéder au Simulateur Gratuit</span> <i class="fa-solid fa-circle-arrow-right"></i>`;
-                    openModal("Bienvenue sur Eswim ! (Mode Local)", "Votre accès de démonstration local est débloqué. Vos adresses de test sont stockées dans ce navigateur.", "fa-circle-check");
+                    openModal("Bienvenue sur Eswim ! (Mode Démo Local)", "Votre accès est débloqué. (Note : Pour recevoir les e-mails réels de vos prospects à distance, n'oubliez pas d'indiquer vos clés personnelles Firebase tout en haut du script de votre index.html).", "fa-circle-check");
                 }, 800);
                 return;
             }
 
-            // Enregistrement réel sur le Firebase de production
+            // Enregistrement en ligne réel dans votre base Firebase
             try {
                 // Application de la RULE 1 (Strict Path pour données publiques)
                 const leadsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'leads');
@@ -871,14 +887,14 @@
                 document.getElementById('email-gate-screen').classList.add('hidden');
                 calculatePaces();
                 
-                openModal("Bienvenue sur Eswim !", "Votre accès est désormais débloqué. Vous pouvez configurer et imprimer votre fiche d'allures.", "fa-circle-check");
+                openModal("Bienvenue sur Eswim !", "Votre accès est désormais débloqué. Vos allures d'entraînement sont prêtes.", "fa-circle-check");
             } catch (error) {
                 console.error("Erreur d'enregistrement Firestore : ", error);
-                // Sauvegarde de secours même si la DB est inaccessible en prod
+                // Sauvegarde de secours même si la DB est momentanément injoignable
                 localStorage.setItem('eswim_gated_unlocked', 'true');
                 document.getElementById('email-gate-screen').classList.add('hidden');
                 calculatePaces();
-                openModal("Accès Secouru", "Impossible de contacter la base de données de production. Pour ne pas vous bloquer, votre accès de secours local a été autorisé.", "fa-triangle-exclamation");
+                openModal("Accès Secouru", "Impossible de contacter la base de données en ligne. Pour ne pas vous bloquer, votre accès de secours local a été autorisé.", "fa-triangle-exclamation");
             } finally {
                 btnSubmit.disabled = false;
                 btnSubmit.innerHTML = `<span>Accéder au Simulateur Gratuit</span> <i class="fa-solid fa-circle-arrow-right"></i>`;
@@ -1089,6 +1105,7 @@
             document.body.removeChild(link);
         }
 
+        // Export de la version de poche hors-ligne HTML
         function exportToOfflineHTML() {
             const mins = inputMinutes.value;
             const secs = inputSeconds.value;
@@ -1372,6 +1389,7 @@
             document.body.removeChild(link);
         }
 
+        // Fermeture des modaux d'administration
         function closeAdminDashboard() {
             document.getElementById('admin-dashboard-modal').classList.add('hidden');
         }
