@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eswim - Simulateur de Fiche d'Allures de Natation</title>
-    <!-- Tailwind CSS pour un design moderne et responsive -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Police de caractère Inter pour une lisibilité maximale -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Icônes FontAwesome pour l'illustration visuelle -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -61,24 +58,34 @@
                 display: none !important;
             }
             .print-card {
-                border: 2px solid #000 !important;
+                border: 1px solid #000 !important;
                 background: white !important;
                 color: black !important;
                 box-shadow: none !important;
                 page-break-inside: avoid;
                 width: 100% !important;
                 margin: 0 !important;
-                padding: 15px !important;
+                padding: 0px !important;
             }
             .print-text-dark {
                 color: #000 !important;
             }
-            .print-bg-gray {
+            .print-text-important {
+                color: #000 !important;
+                font-weight: bold !important;
+                text-decoration: underline !important;
+            }
+            th {
                 background-color: #f3f4f6 !important;
+                color: black !important;
+                border-bottom: 2px solid black !important;
+            }
+            td {
+                border-bottom: 1px solid #e5e7eb !important;
             }
             .glass-panel {
                 background: white !important;
-                border: 1px solid #ddd !important;
+                border: none !important;
                 color: black !important;
             }
             /* Masquer les badges de statut à l'impression */
@@ -90,22 +97,15 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-swim-500 selection:text-white">
 
-    <!-- ÉCRAN DE VERROUILLAGE / COLLECTE D'EMAIL (GATED CONTENT) -->
     <div id="email-gate-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#070e1b]/95 backdrop-blur-md px-4 no-print">
         <div class="glass-panel p-8 rounded-3xl max-w-lg w-full border border-white/10 shadow-2xl space-y-6 text-center">
             
-            <!-- Logo & Brand avec Intégration du Logo SVG de la marque -->
             <div class="flex flex-col items-center space-y-3">
                 <div class="bg-gradient-to-tr from-swim-900/50 to-swim-800/50 p-4 rounded-3xl text-swim-400 shadow-xl shadow-swim-500/5 border border-white/5 flex items-center justify-center">
-                    <!-- LOGO ESWIM DESIGN VECTORIEL EXCLUSIF -->
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 fill-current">
-                        <!-- Partie haute du E -->
                         <path d="M 45,18 H 78 C 84,18 89,23 89,29 C 89,35 84,40 78,40 H 48 C 44,40 40,44 40,48 V 50 H 30 V 45 C 30,30 37,18 45,18 Z" />
-                        <!-- Partie basse du E -->
                         <path d="M 40,56 V 58 C 40,62 44,66 48,66 H 78 C 84,66 89,71 89,77 C 89,83 84,88 78,88 H 45 C 37,88 30,76 30,61 V 56 Z" />
-                        <!-- Tête de nageur / Goutte centrale -->
                         <circle cx="68" cy="53" r="6.5" />
-                        <!-- Vagues dynamiques (s'étendant vers la gauche) -->
                         <path d="M 10,51 C 24,40 44,40 56,53 C 44,60 24,60 10,51 Z" />
                         <path d="M 18,59 C 28,50 46,50 56,59 C 46,65 28,65 18,59 Z" />
                     </svg>
@@ -118,7 +118,6 @@
                 </div>
             </div>
 
-            <!-- Intro text -->
             <div class="space-y-2">
                 <h3 class="text-xl font-bold text-white">Débloquez votre accès gratuit</h3>
                 <p class="text-sm text-slate-400 leading-relaxed">
@@ -126,7 +125,6 @@
                 </p>
             </div>
 
-            <!-- Formulaire de capture -->
             <form id="lead-capture-form" class="space-y-4 text-left">
                 <div>
                     <label for="gate-name" class="block text-xs font-semibold text-slate-300 mb-1.5">Votre Nom / Prénom</label>
@@ -146,7 +144,6 @@
                     </div>
                 </div>
 
-                <!-- Consentement Prospection -->
                 <div class="flex items-start space-x-2.5 pt-1">
                     <input type="checkbox" id="gate-consent" required checked class="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-swim-500 focus:ring-swim-500 focus:ring-offset-slate-900">
                     <label for="gate-consent" class="text-xs text-slate-400 leading-snug">
@@ -154,7 +151,6 @@
                     </label>
                 </div>
 
-                <!-- Bouton soumettre -->
                 <button type="submit" id="btn-gate-submit" class="w-full bg-gradient-to-r from-swim-600 to-swim-500 hover:from-swim-500 hover:to-swim-400 text-white font-bold text-sm py-3.5 rounded-xl transition shadow-lg shadow-swim-500/20 flex items-center justify-center space-x-2">
                     <span>Accéder au Simulateur Gratuit</span>
                     <i class="fa-solid fa-circle-arrow-right"></i>
@@ -165,20 +161,14 @@
         </div>
     </div>
 
-    <!-- En-tête de l'application -->
     <header class="border-b border-white/10 glass-panel sticky top-0 z-50 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="text-swim-400 flex items-center justify-center">
-                    <!-- LOGO ESWIM DESIGN -->
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 fill-current">
-                        <!-- Partie haute du E -->
                         <path d="M 45,18 H 78 C 84,18 89,23 89,29 C 89,35 84,40 78,40 H 48 C 44,40 40,44 40,48 V 50 H 30 V 45 C 30,30 37,18 45,18 Z" />
-                        <!-- Partie basse du E -->
                         <path d="M 40,56 V 58 C 40,62 44,66 48,66 H 78 C 84,66 89,71 89,77 C 89,83 84,88 78,88 H 45 C 37,88 30,76 30,61 V 56 Z" />
-                        <!-- Tête de nageur / Goutte centrale -->
                         <circle cx="68" cy="53" r="6.5" />
-                        <!-- Vagues dynamiques (s'étendant vers la gauche) -->
                         <path d="M 10,51 C 24,40 44,40 56,53 C 44,60 24,60 10,51 Z" />
                         <path d="M 18,59 C 28,50 46,50 56,59 C 46,65 28,65 18,59 Z" />
                     </svg>
@@ -199,10 +189,8 @@
         </div>
     </header>
 
-    <!-- Contenu Principal -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
         
-        <!-- Section Intro / Titre de page -->
         <div class="text-center max-w-3xl mx-auto mb-10 no-print">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight sm:leading-tight">
                 Générez votre <span class="text-swim-400">Fiche de Bassin</span> personnalisée
@@ -212,10 +200,8 @@
             </p>
         </div>
 
-        <!-- Grille de l'application -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Colonne Gauche : Saisie et Paramètres (4 cols) -->
             <div class="lg:col-span-4 space-y-6 no-print">
                 <div class="glass-panel p-6 rounded-2xl shadow-xl space-y-6">
                     <div class="flex items-center space-x-3 pb-4 border-b border-white/5">
@@ -223,7 +209,6 @@
                         <h3 class="font-bold text-white text-base">Votre Performance 1500m</h3>
                     </div>
                     
-                    <!-- Saisie du Chrono -->
                     <div class="space-y-4">
                         <label class="block text-sm font-semibold text-slate-300">
                             Temps de référence (Chrono 1500m)
@@ -248,7 +233,6 @@
                         </div>
                     </div>
 
-                    <!-- Métriques rapides dérivées -->
                     <div class="bg-slate-900/60 rounded-xl p-4 border border-white/5 space-y-3">
                         <div class="flex justify-between items-center text-xs">
                             <span class="text-slate-400">Temps total converti :</span>
@@ -264,7 +248,6 @@
                         </div>
                     </div>
 
-                    <!-- Ajustement optionnel des coefficients -->
                     <div class="pt-4 border-t border-white/5">
                         <button onclick="toggleAdvancedSettings()" class="text-xs text-swim-400 hover:text-swim-300 flex items-center justify-between w-full focus:outline-none">
                             <span>Paramètres avancés des coefficients</span>
@@ -303,7 +286,6 @@
                     </div>
                 </div>
 
-                <!-- Petit guide méthodologique rapide -->
                 <div class="bg-slate-900/40 p-5 rounded-2xl border border-white/5 space-y-3 text-xs">
                     <h4 class="font-semibold text-slate-200 flex items-center space-x-2">
                         <i class="fa-solid fa-graduation-cap text-swim-400"></i>
@@ -315,33 +297,27 @@
                 </div>
             </div>
 
-            <!-- Colonne Droite : Fiche d'allures & Simulateur dynamique (8 cols) -->
             <div class="lg:col-span-8 space-y-6">
                 
-                <!-- Zone de notification/info -->
                 <div id="notification-box" class="hidden glass-panel border-emerald-500/30 bg-emerald-950/20 px-4 py-3 rounded-xl flex items-center space-x-3 text-emerald-400 text-xs no-print">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>La fiche a bien été recalculée d'après vos nouvelles données !</span>
                 </div>
 
-                <!-- PANNEAU DES ENREGISTREMENTS ET FORMATS -->
                 <div class="glass-panel p-5 rounded-2xl shadow-lg border border-swim-500/20 space-y-4 no-print">
                     <div class="flex items-center space-x-2.5 pb-2 border-b border-white/5">
                         <i class="fa-solid fa-download text-swim-400 text-base"></i>
                         <h3 class="font-bold text-white text-sm">Sauvegarde et Téléchargement</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <!-- Bouton Impression / PDF -->
                         <button onclick="printPaceCard()" class="bg-swim-600 hover:bg-swim-500 text-white font-semibold text-xs py-3 px-4 rounded-xl flex items-center justify-center space-x-2 shadow-md transition">
                             <i class="fa-solid fa-print"></i>
                             <span>Imprimer / Sauver en PDF</span>
                         </button>
-                        <!-- Bouton Export CSV (Excel) -->
                         <button onclick="exportToCSV()" class="bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs py-3 px-4 rounded-xl flex items-center justify-center space-x-2 shadow-md transition">
                             <i class="fa-solid fa-file-csv"></i>
                             <span>Exporter en Excel (.CSV)</span>
                         </button>
-                        <!-- Bouton Export HTML local (Poche) -->
                         <button onclick="exportToOfflineHTML()" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs py-3 px-4 rounded-xl flex items-center justify-center space-x-2 border border-white/10 shadow-md transition">
                             <i class="fa-solid fa-file-code"></i>
                             <span>Télécharger Fiche de Poche (.HTML)</span>
@@ -355,10 +331,8 @@
                     </p>
                 </div>
 
-                <!-- LA FICHE DE BASSIN PRINCIPALE -->
                 <div class="glass-panel rounded-2xl shadow-xl overflow-hidden print-card" id="pace-sheet-card">
                     
-                    <!-- En-tête de la fiche d'allures -->
                     <div class="p-6 bg-slate-900/80 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print-bg-gray">
                         <div>
                             <span class="text-xs uppercase font-semibold text-swim-400 tracking-wider">Document d'entraînement</span>
@@ -370,7 +344,6 @@
                         </span>
                     </div>
 
-                    <!-- Corps de la fiche : Tableau des Zones -->
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
@@ -386,7 +359,6 @@
                             </thead>
                             <tbody class="divide-y divide-white/5 text-slate-200">
                                 
-                                <!-- Zone 1 Row -->
                                 <tr class="hover:bg-slate-900/30 transition print-bg-gray">
                                     <td class="py-4 px-6">
                                         <div class="flex items-center space-x-3">
@@ -398,7 +370,7 @@
                                         </div>
                                     </td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z1-50">48"0 - 49"5</td>
-                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-emerald-400" id="z1-100">1'36" - 1'39"</td>
+                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-emerald-400 print-text-important" id="z1-100">1'36" - 1'39"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z1-200">3'13" - 3'18"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z1-300">4'50" - 4'57"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z1-400">6'26" - 6'37"</td>
@@ -409,7 +381,6 @@
                                     </td>
                                 </tr>
 
-                                <!-- Zone 2 Row -->
                                 <tr class="hover:bg-slate-900/30 transition print-bg-gray">
                                     <td class="py-4 px-6">
                                         <div class="flex items-center space-x-3">
@@ -421,7 +392,7 @@
                                         </div>
                                     </td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z2-50">45"0 - 47"5</td>
-                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-swim-400" id="z2-100">1'30" - 1'35"</td>
+                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-swim-400 print-text-important" id="z2-100">1'30" - 1'35"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z2-200">3'01" - 3'10"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z2-300">4'32" - 4'45"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z2-400">6'04" - 6'20"</td>
@@ -432,7 +403,6 @@
                                     </td>
                                 </tr>
 
-                                <!-- Zone 3 Row -->
                                 <tr class="hover:bg-slate-900/30 transition print-bg-gray">
                                     <td class="py-4 px-6">
                                         <div class="flex items-center space-x-3">
@@ -444,10 +414,10 @@
                                         </div>
                                     </td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z3-50">42"0 - 44"0</td>
-                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-amber-400" id="z3-100">1'24" - 1'28"</td>
+                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-amber-400 print-text-important" id="z3-100">1'24" - 1'28"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z3-200">2'49" - 2'56"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z3-300">4'13" - 4'24"</td>
-                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z4-400">5'38" - 5'52"</td>
+                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z3-400">5'38" - 5'52"</td>
                                     <td class="py-4 px-4 text-center">
                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 print-bg-gray">
                                             7-8 / 10
@@ -455,7 +425,6 @@
                                     </td>
                                 </tr>
 
-                                <!-- Zone 4 Row -->
                                 <tr class="hover:bg-slate-900/30 transition print-bg-gray">
                                     <td class="py-4 px-6">
                                         <div class="flex items-center space-x-3">
@@ -467,7 +436,7 @@
                                         </div>
                                     </td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z4-50">39"5 - 41"5</td>
-                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-red-400" id="z4-100">1'19" - 1'23"</td>
+                                    <td class="py-4 px-3 text-center font-mono text-sm print-text-dark font-semibold text-red-400 print-text-important" id="z4-100">1'19" - 1'23"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z4-200">2'38" - 2'46"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z4-300">3'58" - 4'09"</td>
                                     <td class="py-4 px-3 text-center font-mono text-sm print-text-dark" id="z4-400">5'17" - 5'32"</td>
@@ -482,14 +451,12 @@
                         </table>
                     </div>
 
-                    <!-- Note technique en bas de fiche -->
                     <div class="p-4 bg-slate-950/20 border-t border-white/5 text-[11px] text-slate-500 flex justify-between items-center print-text-dark">
                         <span>Eswim © 2026 - Outil d'aide scientifique pour entraîneurs et nageurs</span>
                         <span id="fiche-date" class="font-mono">Généré le: --/--/----</span>
                     </div>
                 </div>
 
-                <!-- MODULE OPTIONNEL : PLANIFICATEUR DE SERIES SUR MESURE -->
                 <div class="glass-panel p-6 rounded-2xl shadow-xl space-y-6 no-print">
                     <div class="flex items-center space-x-3 pb-4 border-b border-white/5">
                         <i class="fa-solid fa-clipboard-list text-swim-400 text-lg"></i>
@@ -500,7 +467,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <!-- Sélection de la distance répétée -->
                         <div>
                             <label class="block text-xs text-slate-400 mb-1 font-semibold">Distance de la répétition</label>
                             <select id="series-distance" onchange="calculateCustomWorkout()" 
@@ -513,7 +479,6 @@
                             </select>
                         </div>
 
-                        <!-- Sélection de la Zone ciblée -->
                         <div>
                             <label class="block text-xs text-slate-400 mb-1 font-semibold">Zone d'Intensité ciblée</label>
                             <select id="series-zone" onchange="calculateCustomWorkout()" 
@@ -525,7 +490,6 @@
                             </select>
                         </div>
 
-                        <!-- Saisie du nombre de répétitions -->
                         <div>
                             <label class="block text-xs text-slate-400 mb-1 font-semibold">Nombre de répétitions</label>
                             <div class="flex items-center space-x-2">
@@ -536,7 +500,6 @@
                         </div>
                     </div>
 
-                    <!-- Fiche de consigne calculée -->
                     <div class="bg-slate-900/80 p-5 rounded-xl border border-white/5 space-y-4">
                         <div class="flex items-center justify-between">
                             <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Votre Consigne Précise</span>
@@ -571,12 +534,10 @@
 
     </main>
 
-    <!-- Pied de page -->
     <footer class="border-t border-white/10 glass-panel py-6 mt-12 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
             <div class="flex items-center space-x-3">
                 <div class="text-swim-500 flex items-center justify-center">
-                    <!-- MINI LOGO FOOTER -->
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current">
                         <path d="M 45,18 H 78 C 84,18 89,23 89,29 C 89,35 84,40 78,40 H 48 C 44,40 40,44 40,48 V 50 H 30 V 45 C 30,30 37,18 45,18 Z" />
                         <path d="M 40,56 V 58 C 40,62 44,66 48,66 H 78 C 84,66 89,71 89,77 C 89,83 84,88 78,88 H 45 C 37,88 30,76 30,61 V 56 Z" />
@@ -587,7 +548,6 @@
                 </div>
                 <span>Eswim - Plateforme Scientifique d'Allures de Natation</span>
                 <span class="text-slate-600">|</span>
-                <!-- BOUTON ACCÈS ADMIN -->
                 <button onclick="promptAdminPanel()" class="text-swim-500 hover:text-swim-400 font-semibold flex items-center space-x-1 transition focus:outline-none">
                     <i class="fa-solid fa-lock text-[10px]"></i>
                     <span>Espace Admin / Prospects</span>
@@ -600,7 +560,6 @@
         </div>
     </footer>
 
-    <!-- MODAL DE CONNEXION / ACCÈS ADMINISTRATION -->
     <div id="admin-auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="glass-panel p-6 rounded-2xl max-w-md w-full border border-white/10 space-y-4 shadow-2xl">
             <div class="flex items-center space-x-3">
@@ -629,7 +588,6 @@
         </div>
     </div>
 
-    <!-- MODAL TABLEAU DE BORD ADMIN (LISTE DES EMAILS ET PROSPECTS) -->
     <div id="admin-dashboard-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="glass-panel p-6 rounded-3xl max-w-2xl w-full border border-white/10 space-y-6 shadow-2xl">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-4">
@@ -649,7 +607,6 @@
                 </button>
             </div>
 
-            <!-- Liste des inscrits -->
             <div class="space-y-3">
                 <span class="text-xs uppercase tracking-wider font-bold text-slate-400 block">Derniers prospects inscrits (<span id="leads-count">0</span>)</span>
                 
@@ -682,7 +639,6 @@
         </div>
     </div>
 
-    <!-- Boîte de dialogue générique personnalisée pour éviter 'alert()' -->
     <div id="custom-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="glass-panel p-6 rounded-2xl max-w-md w-full border border-white/10 space-y-4 shadow-2xl">
             <div class="flex items-center space-x-3">
@@ -702,7 +658,6 @@
         </div>
     </div>
 
-    <!-- SÉCURISATION & INTEGRATION CLOUD FIRESTORE -->
     <script type="module">
         // Importation modulaire officielle des SDKs Firebase v11.6.1
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -1072,7 +1027,7 @@
             const secs = inputSeconds.value;
             const basePace = document.getElementById('stat-base-pace').textContent;
             
-            let csvContent = "\ufeff";
+            let csvContent = "\ufeff"; // BOM pour assurer l'encodage des accents sous Excel
             csvContent += `Fiche d'Allures Eswim;Référence 1500m: ${mins}min ${secs}s (Base 100m: ${basePace})\n\n`;
             csvContent += "Zone;Description;50m;100m;200m;300m;400m;RPE\n";
             
@@ -1089,9 +1044,11 @@
                 let row = zoneFullNames[zone];
                 [50, 100, 200, 300, 400].forEach(dist => {
                     const text = document.getElementById(`${zone}-${dist}`).textContent;
-                    row += `;"${text}"`;
+                    // Doublement des guillemets internes pour protéger le formatage des secondes (ex: 1'30"" pour Excel)
+                    let cleanedText = text.replace(/"/g, '""');
+                    row += `;"${cleanedText}"`;
                 });
-                row += `;${rpes[zone]}`;
+                row += `;"${rpes[zone]}"`;
                 csvContent += row + "\n";
             });
 
@@ -1158,7 +1115,6 @@
 <body>
     <div class="card">
         <div class="header-logo">
-            <!-- LOGO ESWIM OFF-LINE -->
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
                 <path d="M 45,18 H 78 C 84,18 89,23 89,29 C 89,35 84,40 78,40 H 48 C 44,40 40,44 40,48 V 50 H 30 V 45 C 30,30 37,18 45,18 Z" />
                 <path d="M 40,56 V 58 C 40,62 44,66 48,66 H 78 C 84,66 89,71 89,77 C 89,83 84,88 78,88 H 45 C 37,88 30,76 30,61 V 56 Z" />
